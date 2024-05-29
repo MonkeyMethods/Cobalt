@@ -84,14 +84,7 @@ class CobaltClient extends EventEmitter {
 				].join("\n"),
 				"source_name": "",
 			});
-			await new Promise(r => setTimeout(r, 5000));
-
-			this.subClientLogin({
-				...this.options.skinData,
-				"ClientRandomId": Date.now() ** Math.random(),
-				"DeviceId": crypto.randomUUID(),
-				"SelfSignedId": crypto.randomUUID(),
-			})
+			// can run extra stuff here
 		})
 		this.RegisterChecks();
 	}
