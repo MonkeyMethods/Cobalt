@@ -1,0 +1,20 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
+	"linter": {
+		"rules": {
+            "style": {
+				"noParameterAssign": "off",
+                "useSingleVarDeclarator": "off",
+                "useDefaultParameterLast": "off"
+			},
+			"complexity": {
+				"useLiteralKeys": "off"
+			}
+		}
+	},
+	"formatter": {
+		"indentWidth": 4,
+		"indentStyle": "tab",
+		"lineWidth": 1444444444444
+	}
+}
