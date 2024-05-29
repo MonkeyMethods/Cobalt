@@ -39,7 +39,7 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+# node_modules/ We allow this because I have no idea what i've modified in bedrock-protocol :)  
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
