@@ -167,7 +167,7 @@ class CobaltClient extends EventEmitter {
 				throw new Error("Invalid skin data! 0");
 			}
 			try {
-				if (Buffer.from(skinData.cape_data.data, "base64").at(0) === undefined) throw ''
+				Buffer.from(skinData.cape_data.data, "base64") // this is usually empty so we dont check if 0 === undefined;
 			} catch (e) {
 				throw new Error("Invalid cape data! 1");
 			}
