@@ -12,7 +12,6 @@ const { CobaltClient } = require("./CobaltClient")
         "skinData": {
             "ClientRandomId": Date.now() ** Math.random(),
             "DeviceId": crypto.randomUUID(),
-            "SelfSignedId": crypto.randomUUID(),
             "DeviceModel": "ps_emu",
             "DeviceOS": 11,
             "SkinId": btoa(crypto.randomUUID()),
