@@ -83,6 +83,7 @@ function createClient(options) {
 						client.options.port = ad.portV4;
 					}
 					client.conLog?.(`Connecting to ${client.options.host}:${client.options.port} ${ad.motd} (${ad.levelName}), version ${ad.version} ${client.options.version !== ad.version ? ` (as ${client.options.version})` : ""}`);
+					client.options.version = ad.version;
 					client.init();
 				})
 				.catch((e) => client.emit("error", e));
@@ -131,32 +132,33 @@ function connect(client) {
 			}),
 		);
 	});
+	if (client.options.version =< "1.20.80") {
+		// Send tick sync packets every 10 ticks
+		const keepAliveInterval = 10;
+		const keepAliveIntervalBig = BigInt(keepAliveInterval);
+		/** @type {NodeJS.Timeout} */
+		let keepalive;
 
-	// Send tick sync packets every 10 ticks
-	const keepAliveInterval = 10;
-	const keepAliveIntervalBig = BigInt(keepAliveInterval);
-	/** @type {NodeJS.Timeout} */
-	let keepalive;
-
-	client.tick = 0n;
-	client.once("spawn", () => {
-		keepalive = setInterval(() => {
-			client.queue("tick_sync", {
-				request_time: client.tick,
-				response_time: 0n,
+		client.tick = 0n;
+		client.once("spawn", () => {
+			keepalive = setInterval(() => {
+				client.queue("tick_sync", {
+					request_time: client.tick,
+					response_time: 0n,
+				});
+				client.tick += keepAliveIntervalBig;
+			}, 50 * keepAliveInterval);
+	
+			client.on("tick_sync", async (packet) => {
+				client.emit("heartbeat", packet.response_time);
+				client.tick = packet.response_time;
 			});
-			client.tick += keepAliveIntervalBig;
-		}, 50 * keepAliveInterval);
-
-		client.on("tick_sync", async (packet) => {
-			client.emit("heartbeat", packet.response_time);
-			client.tick = packet.response_time;
 		});
-	});
-
-	client.once("close", () => {
-		clearInterval(keepalive);
-	});
+	
+		client.once("close", () => {
+			clearInterval(keepalive);
+		});
+	}
 }
 
 async function ping({ host, port }) {
