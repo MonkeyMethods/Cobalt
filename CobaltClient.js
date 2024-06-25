@@ -4,17 +4,11 @@ const release = require("debug")("cobalt-release");
 release("Starting Cobalt...");
 debug("Debugging enabled!");
 const protocol = require("./clientHandling");
-const { KeyExchange } = require("bedrock-protocol/src/handshake/keyExchange");
-const Login = require("bedrock-protocol/src/handshake/login");
-const LoginVerify = require("bedrock-protocol/src/handshake/loginVerify");
 const { defaultOptions } = require("bedrock-protocol/src/options.js");
 
 const DefaultSkinData = require("./skindata.json");
 const assert = require("node:assert");
-require("./defs");
 const { EventEmitter } = require("node:events");
-const { parse } = require("node:path");
-const { createClient } = require("bedrock-protocol");
 class CobaltClient extends EventEmitter {
 	#players = {};
 	/** @type {import("bedrock-protocol/index").Client} */
