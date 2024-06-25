@@ -132,7 +132,7 @@ function connect(client) {
 			}),
 		);
 	});
-	if (client.options.version =< "1.20.80") {
+	if (client.options.version <= "1.20.80") {
 		// Send tick sync packets every 10 ticks
 		const keepAliveInterval = 10;
 		const keepAliveIntervalBig = BigInt(keepAliveInterval);
